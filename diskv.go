@@ -341,7 +341,7 @@ func (d *Diskv) Read(key string) ([]byte, error) {
 		return []byte{}, err
 	}
 	defer rc.Close()
-	return ioutil.ReadAll(rc)
+	return io.ReadAll(rc)
 }
 
 // ReadString reads the key and returns a string value
@@ -373,7 +373,7 @@ func (d *Diskv) ReadStream(key string, direct bool) (io.ReadCloser, error) {
 			if d.Compression != nil {
 				return d.Compression.Reader(buf)
 			}
-			return ioutil.NopCloser(buf), nil
+			return io.NopCloser(buf), nil
 		}
 
 		go func() {

@@ -14,7 +14,7 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/peterbourgon/diskv/v3"
+	"github.com/misseven0/diskv/v3"
 )
 
 var hex40 = regexp.MustCompile("[0-9a-fA-F]{40}")
