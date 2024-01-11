@@ -55,9 +55,7 @@ func TestIndexOrder(t *testing.T) {
 
 	expectedKeys := []string{"-", "1", "A", "a", "m"}
 	keys := []string{}
-	for _, key := range d.Index.Keys("", 100) {
-		keys = append(keys, key)
-	}
+	keys = append(keys, d.Index.Keys("", 100)...)
 
 	if !cmpStrings(keys, expectedKeys) {
 		t.Fatalf("got %s, expected %s", keys, expectedKeys)
@@ -95,7 +93,7 @@ func TestIndexLoad(t *testing.T) {
 	// cache one
 	if readValue, err := d2.Read(keys[0]); err != nil {
 		t.Fatalf("%s", err)
-	} else if bytes.Compare(val, readValue) != 0 {
+	} else if !bytes.Equal(val, readValue) {
 		t.Fatalf("%s: got %s, expected %s", keys[0], readValue, val)
 	}
 
@@ -113,7 +111,7 @@ func TestIndexLoad(t *testing.T) {
 	// cached value should still be there in the second
 	if readValue, err := d2.Read(keys[0]); err != nil {
 		t.Fatalf("%s", err)
-	} else if bytes.Compare(val, readValue) != 0 {
+	} else if !bytes.Equal(val, readValue) {
 		t.Fatalf("%s: got %s, expected %s", keys[0], readValue, val)
 	}
 
