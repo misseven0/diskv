@@ -41,7 +41,7 @@ func TestWriteReadErase(t *testing.T) {
 	}
 	if readVal, err := d.Read(k); err != nil {
 		t.Fatalf("read: %s", err)
-	} else if bytes.Compare(v, readVal) != 0 {
+	} else if !bytes.Equal(v, readVal) {
 		t.Fatalf("read: expected %s, got %s", v, readVal)
 	}
 	if err := d.Erase(k); err != nil {
@@ -67,7 +67,7 @@ func TestWRECache(t *testing.T) {
 	}
 	if readVal, err := d.Read(k); err != nil {
 		t.Fatalf("read: %s", err)
-	} else if bytes.Compare(v, readVal) != 0 {
+	} else if !bytes.Equal(v, readVal) {
 		t.Fatalf("read: expected %s, got %s", v, readVal)
 	}
 	for i := 0; i < 10 && !d.isCached(k); i++ {
@@ -296,7 +296,7 @@ func TestTempDir(t *testing.T) {
 	}
 	if readVal, err := d.Read(k); err != nil {
 		t.Fatalf("read: %s", err)
-	} else if bytes.Compare(v, readVal) != 0 {
+	} else if !bytes.Equal(v, readVal) {
 		t.Fatalf("read: expected %s, got %s", v, readVal)
 	}
 	if err := d.Erase(k); err != nil {

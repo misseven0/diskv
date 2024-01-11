@@ -2,7 +2,7 @@ package diskv
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"testing"
 )
 
@@ -28,7 +28,7 @@ func TestBasicStreamCaching(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	readBuf, err := ioutil.ReadAll(rc)
+	readBuf, err := io.ReadAll(rc)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -96,7 +96,7 @@ func TestReadStreamDirect(t *testing.T) {
 		t.Fatalf("during third (direct) read, ReadStream: %s", err)
 	}
 	defer rc.Close()
-	val, err = ioutil.ReadAll(rc)
+	val, err = io.ReadAll(rc)
 	if err != nil {
 		t.Fatalf("during third (direct) read, ReadAll: %s", err)
 	}

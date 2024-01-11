@@ -8,7 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"strings"
@@ -203,7 +202,7 @@ func (d *Diskv) createKeyFileWithLock(pathKey *PathKey) (*os.File, error) {
 		if err := os.MkdirAll(d.TempDir, d.PathPerm); err != nil {
 			return nil, fmt.Errorf("temp mkdir: %s", err)
 		}
-		f, err := ioutil.TempFile(d.TempDir, "")
+		f, err := os.CreateTemp(d.TempDir, "")
 		if err != nil {
 			return nil, fmt.Errorf("temp file: %s", err)
 		}
@@ -413,7 +412,7 @@ func (d *Diskv) readWithRLock(pathKey *PathKey) (io.ReadCloser, error) {
 		r = &closingReader{f}
 	}
 
-	var rc = io.ReadCloser(ioutil.NopCloser(r))
+	var rc = io.ReadCloser(io.NopCloser(r))
 	if d.Compression != nil {
 		rc, err = d.Compression.Reader(r)
 		if err != nil {

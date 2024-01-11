@@ -2,7 +2,7 @@ package diskv
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"math/rand"
 	"sync"
 	"testing"
@@ -30,7 +30,7 @@ func TestIssue2A(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		buf, err := ioutil.ReadAll(rc)
+		buf, err := io.ReadAll(rc)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -170,8 +170,8 @@ func TestIssue40(t *testing.T) {
 	// s2 drains:
 	//   cache[k] = v /* overwrites existing */
 	//   cacheSize += len(v) /* blindly adds to the cache size */
-	ioutil.ReadAll(s1)
-	ioutil.ReadAll(s2)
+	io.ReadAll(s1)
+	io.ReadAll(s2)
 
 	// Now write a different k/v pair, with a 60 byte array.
 	k2 := "key2"

@@ -2,7 +2,6 @@ package diskv_test
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 
 	"github.com/misseven0/diskv/v3"
@@ -12,7 +11,7 @@ import (
 
 func TestImportMove(t *testing.T) {
 	b := []byte(`0123456789`)
-	f, err := ioutil.TempFile("", "temp-test")
+	f, err := os.CreateTemp("", "temp-test")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -44,7 +43,7 @@ func TestImportMove(t *testing.T) {
 		t.Errorf("%q not present", key)
 	}
 
-	if buf, err := d.Read(key); err != nil || bytes.Compare(b, buf) != 0 {
+	if buf, err := d.Read(key); err != nil || !bytes.Equal(b, buf) {
 		t.Errorf("want %q, have %q (err = %v)", string(b), string(buf), err)
 	}
 }
@@ -52,7 +51,7 @@ func TestImportMove(t *testing.T) {
 func TestImportCopy(t *testing.T) {
 	b := []byte(`¡åéîòü!`)
 
-	f, err := ioutil.TempFile("", "temp-test")
+	f, err := os.CreateTemp("", "temp-test")
 	if err != nil {
 		t.Fatal(err)
 	}
